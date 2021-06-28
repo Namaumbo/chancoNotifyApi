@@ -5,7 +5,6 @@ module.exports = {
     await queryInterface.createTable('students', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: DataTypes.UUID,
         unique:true,

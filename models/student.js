@@ -2,7 +2,15 @@ const dbConnection = require("../DatabaseConnection")
 const DataTypes = require("sequelize")
 
 const student = dbConnection.define('student', {
+  
   // Model attributes are defined here
+
+  uuid: {
+    type: DataTypes.UUID,
+    defaultValue: Sequelize.UUIDV1,
+    primaryKey: true
+  },
+
   firstName: {
     type: DataTypes.STRING,
     allowNull: false
