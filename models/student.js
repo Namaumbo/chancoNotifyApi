@@ -5,9 +5,9 @@ const student = dbConnection.define('student', {
   
   // Model attributes are defined here
 
-  uuid: {
+id: {
     type: DataTypes.UUID,
-    defaultValue: Sequelize.UUIDV1,
+    defaultValue: DataTypes.UUIDV1,
     primaryKey: true
   },
 
