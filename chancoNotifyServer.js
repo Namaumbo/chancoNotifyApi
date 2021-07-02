@@ -11,10 +11,18 @@ app.use(logger("common"));
 app.use(express.json());
 app.use(helmet());
 
+// resgistering routes 
+// ********************************
+// student routes
+// *******************************
 
-
+app.use("/students",require("./APIRoutes/studentsRoutes.js"))
 
 // const PORT = process.env.PORT || 8080;
+
+
+
+
 
 app.post("/", (req, res) => {
 //  const {, , ,} = req.body;

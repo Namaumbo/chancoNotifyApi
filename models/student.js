@@ -28,10 +28,7 @@ id: {
     type: DataTypes.STRING,
     allowNull:false
   },
-  Department: {
-    type:DataTypes.STRING,
-    allowNull:false
-  },
+  
 }, {
  
   timestamps: true
