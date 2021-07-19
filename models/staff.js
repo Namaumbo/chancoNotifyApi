@@ -16,7 +16,8 @@ id: {
     allowNull: false
   },
   lastName: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    allowNull: false
     // allowNull defaults to true
   } ,
     email:{

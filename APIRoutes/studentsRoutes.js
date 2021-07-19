@@ -8,7 +8,7 @@ const router= express.Router();
         router.get('/',require('../controllers/studentController').getRegisteredStudents);
         // // adding a student
         router.post('/RegisteredStudent',require('../controllers/studentController').RegisterAStudent)
-        // // editing a student
+        // // // editing a student
         // router.put('/edit-student/:id',student.updateAStudent)
         // // // deleting a student
         // router.delete('/delete-student/:id',student.deleteAStudent)

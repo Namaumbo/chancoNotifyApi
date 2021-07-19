@@ -11,15 +11,27 @@ module.exports = {
       },
     firstName: {
         type: DataTypes.STRING,
+        allowNull: false,
+        min:3,
+        max:30
+
       },
       lastName: {
         type: DataTypes.STRING,
+        allowNull: false,
+        min:3,
+        max:30
       },
       email: {
         type: DataTypes.STRING,
+        allowNull: false,
+        min:10,
+        max:35
       },
       password:{
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
       },
       createdAt: {
         allowNull: false,
