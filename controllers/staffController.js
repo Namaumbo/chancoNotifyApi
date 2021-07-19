@@ -45,12 +45,12 @@ exports.sign_up_a_lecturer = async (req, res, next) => {
       } else {
         try {
           // changing the password into hashed password
-          const new_staff  = Object.assign( req.body,{password: hashed_password});
-          if (firstName ===  ""||lastName ===""||email ===""||password===""){
-           res.status(400).json({ message:"invalid inputs"})
+          const new_staff = Object.assign(req.body, { password: hashed_password });
+          if (firstName === "" || lastName === "" || email === "" || password === "") {
+            res.status(400).json({ message: "invalid inputs" })
           }
-          else{
-              // saving into the staff model
+          else {
+            // saving into the staff model
             staff_model.create(new_staff).then(() => {
               res.status(201).json({ message: `successfully registered` });
             });
@@ -70,20 +70,22 @@ exports.sign_up_a_lecturer = async (req, res, next) => {
 exports.LoginAStaff = async (req, res, next) => {
   const { email, password } = req.body;
 
-  if (req.body.email === "" || req.body.password === "") {
+  if (email === "" || password === "") {
     res.json({ message: "invalid inputs" });
   } else {
 
-    const staff_email = staff_model.findOne({where:{ email}})
+  // checking if email exists
+    const staff_email = staff_model.findOne({ where: { email } })
     // const staff_password = staff_model.findOne({where:{ password}})
 
-    if(staff_email != null){
-      
-        const checkpassword = await bycrypt.compare(req.body.password, staff_email.password)
-    
+    if (staff_email != null) {
 
-    }else{
-      res.status(401).json({ message:"invalid credentials" });
+      const checkpassword = await bycrypt.compare(req.body.password, staff_email.password)
+
+
+
+    } else {
+      res.status(401).json({ message: "invalid credentials" });
     }
   }
 };
