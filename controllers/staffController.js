@@ -77,7 +77,7 @@ exports.LoginAStaff = async (req, res, next) => {
     const checkpassword = await bcrypt.compare(password, staff_email.password);
     if (!checkpassword) {
       res
-        .status(400)
+        .status(422)
         .json({ message: "wrong password please re-enter your password" });
       return false;
     } else {
@@ -88,7 +88,7 @@ exports.LoginAStaff = async (req, res, next) => {
       return true;
     }
   } else if (!staff_email) {
-    res.status(400).json({ message: "wrong email please re-enter your email" });
+    res.status(422).json({ message: "wrong email please re-enter your email" });
   } else {
     res
       .status(500)
