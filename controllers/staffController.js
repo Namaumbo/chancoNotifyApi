@@ -81,7 +81,7 @@ exports.LoginAStaff = async (req, res, next) => {
         .json({ message: "wrong password please re-enter your password" });
       return false;
     } else {
-      res.status(201).json({
+      res.status(200).json({
         status: "login successfully",
         message: `welcome ${staff_email.firstName}`,
       });
