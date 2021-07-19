@@ -1,8 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const bodyParser = require("body-parser")
-const cors = require('cors')
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const logger = require("morgan");
 const { sequelize } = require("./models");
@@ -13,14 +13,18 @@ app.use(express.json());
 
 app.use(helmet());
 
- app.use(cors());
+app.use(cors());
 
-// resgistering routes 
+// resgistering routes
 // ********************************
 // student routes
 // *******************************
-app.use("/students",require("./APIRoutes/studentsRoutes.js"))
-app.use("/staffs",require("./APIRoutes/staffsRoutes.js"))
+app.use("/students", require("./APIRoutes/studentsRoutes.js"));
+
+// ********************************
+// staff routes
+// *******************************
+app.use("/staffs", require("./APIRoutes/staffsRoutes.js"));
 // const PORT = process.env.PORT || 8080;
 app.listen(4000, () => {
   console.log("your app is running on port ");

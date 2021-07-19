@@ -16,7 +16,7 @@ exports.loginValidation = [
     .withMessage('Password cannot be empty')
     .isLength({min: 6})
     .withMessage('Password must be more that 6 charecters'),
-    
+
 (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty())
