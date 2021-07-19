@@ -30,6 +30,8 @@ exports.sign_up_a_lecturer = async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
 
   const salt = await bcrypt.genSalt(10);
+
+  //hashing the user password
   const hashed_password = await bcrypt.hash(req.body.password, salt);
 
   const staff = staff_model.findOne({
@@ -67,21 +69,29 @@ exports.sign_up_a_lecturer = async (req, res, next) => {
 // login use case
 exports.LoginAStaff = async (req, res, next) => {
   const { email, password } = req.body;
+  // checking if email exists
+  const staff_email = await staff_model.findOne({ where: { email } });
+  // const staff_password = staff_model.findOne({where:{ password}})
 
-  if (email === "" || password === "") {
-    res.json({ message: "invalid inputs" });
-  } else {
-    // checking if email exists
-    const staff_email = staff_model.findOne({ where: { email } });
-    // const staff_password = staff_model.findOne({where:{ password}})
-
-    if (staff_email != null) {
-      const checkpassword = await bycrypt.compare(
-        req.body.password,
-        staff_email.password
-      );
+  if (staff_email) {
+    const checkpassword = await bcrypt.compare(password, staff_email.password);
+    if (!checkpassword) {
+      res
+        .status(400)
+        .json({ message: "wrong password please re-enter your password" });
+      return false;
     } else {
-      res.status(401).json({ message: "invalid credentials" });
+      res.status(201).json({
+        status: "login successfully",
+        message: `welcome ${staff_email.firstName}`,
+      });
+      return true;
     }
+  } else if (!staff_email) {
+    res.status(400).json({ message: "wrong email please re-enter your email" });
+  } else {
+    res
+      .status(500)
+      .json({ message: "opps errors were meant for humans encounter" });
   }
 };
