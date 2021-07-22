@@ -6,9 +6,16 @@ const jwt = require("jsonwebtoken");
 const staff_model = require("../models/staff");
 // const e = require("express");
 
-exports.get_all_staffs = async (req, res, next) => {
+exports.get_all_staffs = async (req, res) => {
   const staffs = staff_model.findAll({
-    attributes: ["firstName", "lastName", "email", "password"],
+    attributes: [
+      "id",
+      "firstName",
+      "lastName",
+      "email",
+      "password",
+      "createdAt",
+    ],
   });
 
   staffs.then((response) => {
@@ -26,13 +33,13 @@ exports.get_all_staffs = async (req, res, next) => {
 };
 
 //sign up use case from the admin side
-exports.sign_up_a_lecturer = async (req, res, next) => {
+exports.sign_up_a_lecturer = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
   const salt = await bcrypt.genSalt(10);
 
   //hashing the user password
-  const hashed_password = await bcrypt.hash(req.body.password, salt);
+  const hashed_password = await bcrypt.hash(password, salt);
 
   const staff = staff_model.findOne({
     where: { email },
@@ -69,12 +76,15 @@ exports.sign_up_a_lecturer = async (req, res, next) => {
 // login use case
 exports.LoginAStaff = async (req, res, next) => {
   const { email, password } = req.body;
-  // checking if email exists
-  const staff_email = await staff_model.findOne({ where: { email } });
-  // const staff_password = staff_model.findOne({where:{ password}})
 
-  if (staff_email) {
-    const checkpassword = await bcrypt.compare(password, staff_email.password);
+  // checking if email exists
+  const staff_existential = await staff_model.findOne({ where: { email } });
+
+  if (staff_existential) {
+    const checkpassword = await bcrypt.compare(
+      password,
+      staff_existential.password
+    );
     if (!checkpassword) {
       res
         .status(422)
@@ -83,11 +93,11 @@ exports.LoginAStaff = async (req, res, next) => {
     } else {
       res.status(200).json({
         status: "login successfully",
-        message: `welcome ${staff_email.firstName}`,
+        message: `welcome ${staff_existential.firstName}`,
       });
       return true;
     }
-  } else if (!staff_email) {
+  } else if (!staff_existential) {
     res.status(422).json({ message: "wrong email please re-enter your email" });
   } else {
     res
