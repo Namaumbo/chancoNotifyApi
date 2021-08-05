@@ -92,8 +92,9 @@ exports.LoginAStaff = async (req, res, next) => {
       return false;
     } else {
       res.status(200).json({
-        status: "login successfully",
-        message: `welcome ${staff_existential.firstName}`,
+        Status: "login successfully",
+        detail:staff_existential,
+        
       });
       return true;
     }

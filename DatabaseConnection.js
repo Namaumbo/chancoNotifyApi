@@ -10,10 +10,6 @@ const connection = new Sequelize("chancoNotify","postgres","spikker6!",{
     acquire: 30000,
     idle: 10000
     }
-
-
-
-
   });
 
   //connection.sync({force:true})

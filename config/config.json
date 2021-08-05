@@ -1,6 +1,7 @@
 {
   "development": {
-    "username": "postgres",
+    "username": "postgres"
+    ,
     "password": "spikker6!",
     "database": "chancoNotify",
     "host": "127.0.0.1",
