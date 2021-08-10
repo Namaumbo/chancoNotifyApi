@@ -1,7 +1,9 @@
 const dbConnection = require("../DatabaseConnection")
 const DataTypes = require("sequelize")
+// const messages = require("../models/message");
+const message = require("../models/message");
 
-const student = dbConnection.define('staff', {
+const staff = dbConnection.define('staff', {
   
   // Model attributes are defined here
 
@@ -31,7 +33,17 @@ password:{
 }
   
 }, {
- 
+
   timestamps: true
 });
-module.exports = student
+
+
+staff.hasMany(message,{
+  onDelete:"CASCADE",
+  onUpdate:"CASCADE",
+})
+message.belongsTo(staff)
+
+
+//staff.sync({force:true});
+module.exports = staff

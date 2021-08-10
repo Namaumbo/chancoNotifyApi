@@ -88,7 +88,10 @@ exports.LoginAStaff = async (req, res, next) => {
     if (!checkpassword) {
       res
         .status(422)
-        .json({ message: "wrong password please re-enter your password" });
+        .json({ 
+          status:"login error", 
+          message: "wrong password please re-enter your password"
+         });
       return false;
     } else {
       res.status(200).json({
@@ -99,7 +102,10 @@ exports.LoginAStaff = async (req, res, next) => {
       return true;
     }
   } else if (!staff_existential) {
-    res.status(422).json({ message: "wrong email please re-enter your email" });
+    res.status(422).json({
+      status:"no user",
+       message: "wrong email please re-enter your email" 
+      });
   } else {
     res
       .status(500)

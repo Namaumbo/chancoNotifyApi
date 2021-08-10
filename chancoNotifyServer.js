@@ -4,7 +4,7 @@ const app = express();
 // const bodyParser = require("body-parser");
 const cors = require("cors");
 const logger = require("morgan");
-const { sequelize } = require("./models");
+// const { sequelize } = require("./models");
 const helmet = require("helmet");
 
 app.use(logger("common"));

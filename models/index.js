@@ -6,6 +6,9 @@ const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
+const Astaff = require('../models/staff.js')
+const Amessages = require("../models/message.js")
+
 const db = {};
 
 let sequelize;
@@ -33,5 +36,6 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
 
 module.exports = db;
