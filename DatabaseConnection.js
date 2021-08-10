@@ -11,6 +11,6 @@ const connection = new Sequelize("chancoNotify","postgres","spikker6!",{
     idle: 10000
     }
   });
-connection.sync({force:true})
+connection.sync({force: true})
 
   module.exports = connection

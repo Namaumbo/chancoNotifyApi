@@ -14,6 +14,17 @@ module.exports = {
         type: Sequelize.STRING,
         min:4
       },
+      title: {
+        type: DataTypes.TEXT,
+        min: 5,
+        max: 30,
+        allowNull:true,
+      },
+      is_important: {
+        type:DataTypes.BOOLEAN,
+        allowNull:true,
+        defaultValue:false,
+      },
       sent_at:{
        type:DataTypes.DATEONLY
       },

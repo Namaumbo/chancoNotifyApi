@@ -1,7 +1,8 @@
 const dbConnection = require("../DatabaseConnection")
 const DataTypes = require("sequelize")
-// const messages = require("../models/message");
+const department = require("../models/department");
 const message = require("../models/message");
+const faculty = require("../models/faculty");
 
 const staff = dbConnection.define('staff', {
   
@@ -37,13 +38,29 @@ password:{
   timestamps: true
 });
 
-
+/**************
+ association of message and staff
+**************/
 staff.hasMany(message,{
   onDelete:"CASCADE",
   onUpdate:"CASCADE",
 })
 message.belongsTo(staff)
+/**************
+ association of department and staff
+**************/
+staff.hasOne(department,{
+  onDelete:"CASCADE",
+  onUpdate:"CASCADE",
+})
+department.belongsTo(staff)
 
-
-//staff.sync({force:true});
+/**************
+ association of faculty and staff
+**************/
+staff.hasOne(faculty,{
+  onDelete:"CASCADE",
+  onUpdate:"CASCADE",
+})
+faculty.belongsTo(staff)
 module.exports = staff
