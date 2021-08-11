@@ -1,7 +1,7 @@
 "use strict"
 
 const {check, validationResult} = require('express-validator');
-exports.loginValidation = [
+exports.messageValidator = [
   check('message_body')
     .trim()
     .normalizeEmail()
