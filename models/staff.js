@@ -1,9 +1,8 @@
+'use strict'
 const dbConnection = require("../DatabaseConnection")
 const DataTypes = require("sequelize")
-const department = require("../models/department");
-const message = require("../models/message");
-const faculty = require("../models/faculty");
-
+const message = require("../models/message.js");
+const department = require("../models/department.js")
 const staff = dbConnection.define('staff', {
   
   // Model attributes are defined here
@@ -27,6 +26,11 @@ id: {
     type:DataTypes.STRING,
     allowNull:false
   },
+  role: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: "administration_staff",
+  },
 password:{
   type: DataTypes.STRING,
   allowNull:false,
@@ -38,29 +42,21 @@ password:{
   timestamps: true
 });
 
-/**************
- association of message and staff
-**************/
-staff.hasMany(message,{
-  onDelete:"CASCADE",
-  onUpdate:"CASCADE",
-})
-message.belongsTo(staff)
-/**************
- association of department and staff
-**************/
-staff.hasOne(department,{
-  onDelete:"CASCADE",
-  onUpdate:"CASCADE",
-})
-department.belongsTo(staff)
+    /**************
+     association of message and staff
+     **************/
+     staff.hasMany(message,{
+      onDelete:"CASCADE",
+      onUpdate:"CASCADE",
+    })
+    message.belongsTo(staff)
 
-/**************
- association of faculty and staff
-**************/
-staff.hasOne(faculty,{
-  onDelete:"CASCADE",
-  onUpdate:"CASCADE",
-})
-faculty.belongsTo(staff)
+        /**************
+   association of department and staff
+  **************/
+    department.hasMany(staff,{
+      onDelete:"CASCADE",
+      onUpdate:"CASCADE",
+    })
+    staff.belongsTo(department)
 module.exports = staff

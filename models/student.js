@@ -34,5 +34,4 @@ id: {
   timestamps: true
 });
 
-
 module.exports = student

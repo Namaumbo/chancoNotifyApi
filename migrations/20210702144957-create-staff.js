@@ -9,29 +9,33 @@ module.exports = {
         primaryKey: true,
         type: DataTypes.UUID,
       },
-    firstName: {
+      firstName: {
         type: DataTypes.STRING,
         allowNull: false,
-        min:3,
-        max:30
-
+        min: 3,
+        max: 30,
+      },
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "administration_staff",
       },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,
-        min:3,
-        max:30
+        min: 3,
+        max: 30,
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        min:10,
-        max:35
+        min: 10,
+        max: 35,
       },
-      password:{
+      password: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
       },
       createdAt: {
         allowNull: false,

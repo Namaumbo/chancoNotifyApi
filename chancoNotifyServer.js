@@ -23,13 +23,21 @@ app.use("/students", require("./APIRoutes/studentsRoutes.js"));
 // staff routes
 // *******************************
 app.use("/staffs", require("./APIRoutes/staffsRoutes.js"));
-app.use("/message", require("./APIRoutes/messageRoutes.js"));
+
 // ********************************
 // message routes
-// *******************************
-// app.use("/messages",require("./APIRoutes/messageRoutes.js"));
+// ******************************
+
+app.use("/message", require("./APIRoutes/messageRoutes.js"));
+
+// ********************************
+// department routes
+// ******************************
+
+// temporaly route for saving departments
+app.use("/department",require("./APIRoutes/DepartmentalRoutes.js"));
 
 // const PORT = process.env.PORT || 8080;
 app.listen(4000, () => {
-  console.log("your app is running on port ");
+  console.log("your app is running on port 4000 ");
 });

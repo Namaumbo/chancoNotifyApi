@@ -1,5 +1,6 @@
 const dbConnection = require("../DatabaseConnection");
 const DataTypes = require("sequelize");
+
 const message = dbConnection.define(
   "message",
   {

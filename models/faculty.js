@@ -1,3 +1,4 @@
+'use strict'
 const dbConnection = require("../DatabaseConnection");
 const DataTypes = require("sequelize");
 const department = require("../models/department.js");
@@ -21,11 +22,5 @@ const faculty = dbConnection.define(
 );
 
 
-faculty.hasMany(department,{
-  onDelete:"CASCADE",
-  onUpdate:"CASCADE",
-})
-department.belongsTo(faculty)
 
-
-module.exports = faculty;
+module.exports = faculty
