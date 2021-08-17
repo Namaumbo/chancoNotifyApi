@@ -12,3 +12,4 @@ const connection = new Sequelize(process.env.DATABASE_URL,{
  connection.sync({force: true})
 
   module.exports = connection
+  
