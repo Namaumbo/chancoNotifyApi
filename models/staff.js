@@ -31,6 +31,16 @@ id: {
     allowNull: false,
     defaultValue: "administration_staff",
   },
+  status: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  is_head_of_dep :{
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue:false,
+   },
 password:{
   type: DataTypes.STRING,
   allowNull:false,

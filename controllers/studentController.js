@@ -41,7 +41,6 @@ exports.RegisterAStudent = async (req, res, next) => {
   const department = await department_model.findOne({
     where: { name },
   });
-  console.log(department);
   if (department === null) {
     res.status(401).json({ message: "no such department name" });
   } else {

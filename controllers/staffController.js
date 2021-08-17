@@ -94,9 +94,12 @@ exports.LoginAStaff = async (req, res, next) => {
          });
       return false;
     } else {
+      const staff_online = Object.assign(staff_existential,{
+        status:true
+      })
       res.status(200).json({
         Status: "login successfully",
-        detail:staff_existential,
+        detail:staff_online,
         
       });
       return true;

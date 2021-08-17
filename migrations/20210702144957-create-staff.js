@@ -20,6 +20,16 @@ module.exports = {
         allowNull: false,
         defaultValue: "administration_staff",
       },
+      is_head_of_dep: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      status: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,

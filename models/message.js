@@ -23,6 +23,10 @@ const message = dbConnection.define(
       max: 30,
       allowNull:true,
     },
+    message_type:{
+      type :DataTypes.STRING,
+      allowNull:false,
+    },
     is_important: {
       type:DataTypes.BOOLEAN,
       allowNull:true,

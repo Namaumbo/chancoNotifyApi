@@ -32,6 +32,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      message_type:{
+        type :DataTypes.STRING,
+        allowNull:false,
+      },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
