@@ -173,3 +173,11 @@ exports.get_secretary_messages = async (req, res, next) => {
     });
   });
 };
+
+exports.delete = async(req,res,) => {
+
+  message_model.destroy().then(() => {
+    res.status.json("sussessfully deleted all messages")
+  })
+
+}

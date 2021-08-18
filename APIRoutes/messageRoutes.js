@@ -15,7 +15,7 @@ router.get("/personalMsg", require("../controllers/messageController").get_perso
 
 router.get("/scholarshipMsg", require("../controllers/messageController").get_scholarship_messages);
 
-
+router.delete("/deleteMsg",require("../controllers/messageController").delete);
 
 
 
