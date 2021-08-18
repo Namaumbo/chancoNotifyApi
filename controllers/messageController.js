@@ -176,8 +176,8 @@ exports.get_secretary_messages = async (req, res, next) => {
 
 exports.delete = async(req,res,) => {
 
-  message_model.destroy().then(() => {
-    res.status.json("sussessfully deleted all messages")
-  })
+  message_model.destroy({where:{}}).then(() => {
+    res.status(200).json("sussessfully deleted all messages")
+  }).catch(err => {console.error(err);})
 
 }
