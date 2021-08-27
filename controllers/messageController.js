@@ -7,14 +7,14 @@ const message_model = require("../models/message.js");
  sending a messages
 *************************/
 
-exports.getall = async (req, res=>{
+exports.getall = async (req, res)=>{
   const messages = await message_model.findAll()
   if(messages){
     res.status(200).json({messages})
   }else{
     res.status(404).send("no messages")
   }
-})
+}
 
 exports.send_message = async (req, res, next) => {
   var today = new Date();
