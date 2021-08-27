@@ -7,6 +7,15 @@ const message_model = require("../models/message.js");
  sending a messages
 *************************/
 
+exports.getall = async (req, res=>{
+  const messages = await message_model.findAll()
+  if(messages){
+    res.status(200).json({messages})
+  }else{
+    res.status(404).send("no messages")
+  }
+})
+
 exports.send_message = async (req, res, next) => {
   var today = new Date();
   var time = today.getHours() + ":" + today.getMinutes();
@@ -131,7 +140,7 @@ exports.get_scholarship_messages = async (req, res, next) => {
 exports.get_classroom_messages = async (req, res, next) => {
  
   const BroadcastMessages = message_model.findAll({
-    where: { message_type: "CLASSROOM" },
+    where: { message_type: "GOOGLE CLASSROOM" },
     attributes: ["message_body", "sent_at", "staffId"],
   });
   BroadcastMessages.then((response) => {

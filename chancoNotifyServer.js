@@ -38,7 +38,7 @@ app.use("/message", require("./APIRoutes/messageRoutes.js"));
 // temporaly route for saving departments
 app.use("/department",require("./APIRoutes/DepartmentalRoutes.js"));
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
+const PORT = process.env.PORT || 4000;
+app.listen(4000, () => {
   console.log("your app is running on port 4000 ");
 });
