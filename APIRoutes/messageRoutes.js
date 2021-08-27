@@ -16,7 +16,7 @@ router.get("/personalMsg", require("../controllers/messageController").get_perso
 router.get("/scholarshipMsg", require("../controllers/messageController").get_scholarship_messages);
 
 router.delete("/deleteMsg",require("../controllers/messageController").delete);
-rouer.get("/",require("../controllers/messageController").getall);
+router.get("/",require("../controllers/messageController").getall);
 
 
 router.post("/sendMsg",messageValidator,require("../controllers/messageController").send_message)
