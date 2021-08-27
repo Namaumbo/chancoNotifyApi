@@ -14,6 +14,7 @@ const message = dbConnection.define(
     },
     message_body: {
       type: DataTypes.STRING,
+      length:2500,
       allowNull: false,
       min: 4,
     },
