@@ -13,12 +13,12 @@ const message = dbConnection.define(
       allowNull: false,
     },
     message_body: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: false,
       min: 4,
     },
     title: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       min: 5,
       max: 30,
       allowNull:true,
