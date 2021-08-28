@@ -2,10 +2,13 @@
 
 const { response } = require("express");
 const department_model = require("../models/department.js");
+const Student  = require("../models/student")
+
+
 
 // getting all the students
 exports.getRegisteredStudents = async (req, res, next) => {
-  const students = require("../models/student").findAll({
+  const students = Student.findAll({
     attributes: ["firstName", "lastName", "RegistrationNumber"],
   });
 
@@ -32,7 +35,6 @@ exports.RegisterAStudent = async (req, res, next) => {
   const {
     firstName,
     lastName,
-    Department,
     RegistrationNumber,
     phoneNumber,
     name,
@@ -44,7 +46,7 @@ exports.RegisterAStudent = async (req, res, next) => {
   if (department === null) {
     res.status(401).json({ message: "no such department name" });
   } else {
-    const student = await require("../models/student").findOne({
+    const student = await Student.findOne({
       where: {
         RegistrationNumber,
       },
@@ -58,7 +60,7 @@ exports.RegisterAStudent = async (req, res, next) => {
       const newStudent = Object.assign(req.body, {
         departmentId: department.id,
       });
-      require("../models/student")
+      Student
         .create(newStudent)
         .then((response) => {
           res.status(201).json({
@@ -75,4 +77,22 @@ exports.RegisterAStudent = async (req, res, next) => {
     } else {
     }
   }
+};
+
+
+// login student 
+
+exports.loginStudent  = async (req, res, next) => {
+  
+  const {RegistrationNumber}= req.body;
+  const studentRegistrationNumber = await Student.findOne({where:{RegistrationNumber}});
+
+  if (!studentRegistrationNumber){
+    res.status(404).send("wrong registration number");
+  }
+  else{
+    res.status(200).json({studentName:studentRegistrationNumber})
+  }
+
+
 };
