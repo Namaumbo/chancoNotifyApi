@@ -2,6 +2,7 @@ const express = require('express');
 
 
 
+
 const router= express.Router();
         
         // getting all registered students
@@ -10,6 +11,8 @@ const router= express.Router();
         router.post('/RegisterStudent',require('../controllers/studentController').RegisterAStudent)
         //login a student
         router.post('/loginStudent',require('../controllers/studentController').loginStudent)
+
+        router.get("/getAStudent/:id",require("../controllers/studentController").getAStudent)
       
 
 module.exports = router

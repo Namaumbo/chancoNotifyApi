@@ -25,11 +25,6 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
       },
-      status: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-      },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,

@@ -4,6 +4,7 @@ const { response } = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const staff_model = require("../models/staff");
+const department = require("../models/department.js")
 // const e = require("express");
 
 exports.get_all_staffs = async (req, res) => {
@@ -16,6 +17,10 @@ exports.get_all_staffs = async (req, res) => {
       "password",
       "createdAt",
     ],
+    include:{
+      model: department,
+      attributes: ["id","name"]
+  }
   });
 
   staffs.then((response) => {
@@ -34,43 +39,47 @@ exports.get_all_staffs = async (req, res) => {
 
 //sign up use case from the admin side
 exports.sign_up_a_lecturer = async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password,name,is_head_of_dep,role } = req.body;
 
   const salt = await bcrypt.genSalt(10);
-
   //hashing the user password
   const hashed_password = await bcrypt.hash(password, salt);
-
-  const staff = staff_model.findOne({
-    where: { email },
+  // searchin department
+  const departmentAvailable = await department.findOne({
+    where: { name },
   });
-
-  staff
-    .then((response) => {
-      if (response) {
-        res
-          .status(409)
-          .json({ message: `user already exists with Email ${email}` });
-      } else {
-        try {
-          // changing the password into hashed password
-          const new_staff = Object.assign(req.body, {
-            password: hashed_password,
-          });
-
-          // saving into the staff model
-          staff_model.create(new_staff).then(() => {
-            res.status(201).json({ message: `successfully registered` });
-          });
-        } catch (err) {
-          if (res.status === 404) res.status(404).json({ message: err });
-        }
-      }
+  if (departmentAvailable === null) {
+    res.status(401).json({ message: "no such department name" });
+  } else {
+   const staff = await staff_model.findOne({
+      where: { email },
     })
-    .catch((err) => {
-      res.status(500).json({ message: `Opps ${err.message}` });
-      console.log(err);
-    });
+    if (staff) {
+      res.status(409).json({
+        message: "staff available",
+        detail: staff,
+      });
+    } else if (staff == null) {
+      const newStaff = Object.assign(req.body, {
+        password:hashed_password ,
+        departmentId: departmentAvailable.id,
+      });
+      staff_model.create(newStaff)
+        .then((response) => {
+          res.status(201).json({
+            message: "staff registered",
+            staff: response,
+          });
+        })
+        .catch((err) => {
+          res.status(500).json({
+            message: "There has been an error",
+            detail: err.errors[0].message,
+          });
+        });
+    } else {
+    }
+  }
 };
 
 // login use case
@@ -86,29 +95,27 @@ exports.LoginAStaff = async (req, res, next) => {
       staff_existential.password
     );
     if (!checkpassword) {
-      res
-        .status(422)
-        .json({ 
-          status:"login error", 
-          message: "wrong password please re-enter your password"
-         });
+      res.status(422).json({
+        status: "login error",
+        message: "wrong password please re-enter your password",
+      });
       return false;
     } else {
-      const staff_online = Object.assign(staff_existential,{
-        status:true
-      })
+      const token = jwt.sign({id:staff_existential.id},process.env.SECRETE_KEY, {
+        expiresIn: 3600,
+      });
       res.status(200).json({
         Status: "login successfully",
-        detail:staff_online,
-        
+        staff_existential,
+        accessToken : token,
       });
       return true;
     }
   } else if (!staff_existential) {
     res.status(422).json({
-      status:"no user",
-       message: "wrong email please re-enter your email" 
-      });
+      status: "no user",
+      message: "wrong email please re-enter your email",
+    });
   } else {
     res
       .status(500)

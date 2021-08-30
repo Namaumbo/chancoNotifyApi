@@ -3,6 +3,8 @@
 const { response } = require("express");
 const department_model = require("../models/department.js");
 const Student  = require("../models/student")
+const jwt = require("jsonwebtoken");
+const department = require("../models/department.js");
 
 
 
@@ -10,6 +12,10 @@ const Student  = require("../models/student")
 exports.getRegisteredStudents = async (req, res, next) => {
   const students = Student.findAll({
     attributes: ["firstName", "lastName", "RegistrationNumber"],
+    include:{
+      model:department,
+      attributes:["name","id"]
+    }
   });
 
   students
@@ -29,6 +35,18 @@ exports.getRegisteredStudents = async (req, res, next) => {
       console.log(error);
     });
 };
+
+exports.getAStudent = async (req, res, next) => {
+  const id = req.params.id
+
+  const student  = await Student.findOne({where:{id}});
+  if(!student){
+    res.status(404).send("no student");
+  }
+  else{
+    res.status(200).send(student)
+  }
+}
 
 // adding a student to the database
 exports.RegisterAStudent = async (req, res, next) => {
@@ -85,13 +103,17 @@ exports.RegisterAStudent = async (req, res, next) => {
 exports.loginStudent  = async (req, res, next) => {
   
   const {RegistrationNumber}= req.body;
-  const studentRegistrationNumber = await Student.findOne({where:{RegistrationNumber}});
+  const student = await Student.findOne({where:{RegistrationNumber}});
 
-  if (!studentRegistrationNumber){
+  if (!student){
     res.status(404).send("wrong registration number");
   }
   else{
-    res.status(200).json({studentName:studentRegistrationNumber})
+    const token = jwt.sign({RegistrationNumber : req.body},process.env.SECRETE_KEY, {
+      expiresIn: 3600,
+    });
+ 
+    res.status(200).json({student,accessToken:token})
   }
 
 
