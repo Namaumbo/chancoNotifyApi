@@ -98,10 +98,7 @@ exports.get_department_messages = async (req, res) => {
   const studentAvailable = await student.findOne({
     where: { RegistrationNumber: req.RegistrationNumber },
   });
-
   if (!studentAvailable) return res.status(404).send("hmm there seems to be an error");
-
-  
   await message_model
     .findAll({
       where: { message_type: "DEPARTMENT" },
@@ -119,20 +116,22 @@ exports.get_department_messages = async (req, res) => {
         });
       } else {
         const idsHolder = []
-        const departmentStudentMessageHolder = []
         response.forEach((message) => {
         const id = message.staff.department.id
         idsHolder.push(id)
-        });
-
+        
+      });
         // getting the department and student ids
-        idsHolder.forEach((id)=>{
-           if(studentAvailable.departmentId === id){
-          departmentStudentMessageHolder.push(id)  
+        idsHolder.forEach( async (messageId)=>{
+           if((studentAvailable.departmentId === messageId)){    
+          const message= await message_model.findAll({where:{departmentId:messageId}})
+            if(message){
+              res.status(200).json({message:message});
+            }
+          
           }
         })
-        //ids only specific for the student department will be return
-        res.send(departmentStudentMessageHolder)
+       
       }
     })
     .catch((error) => {
