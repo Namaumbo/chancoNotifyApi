@@ -3,7 +3,6 @@ const { messageValidator } = require("../middlewares/messageValidator.js");
 const { verifyToken } = require("../middlewares/studentDepartment");
 const { staffVerications } = require("../middlewares/staffMessage.js");
 
-
 const router = express.Router();
 
 router.get(
@@ -13,6 +12,7 @@ router.get(
 
 router.get(
   "/classroomMsg",
+  verifyToken,
   require("../controllers/messageController").get_classroom_messages
 );
 
@@ -24,6 +24,7 @@ router.get(
 
 router.get(
   "/secretaryMsg",
+  verifyToken,
   require("../controllers/messageController").get_secretary_messages
 );
 
