@@ -111,8 +111,7 @@ exports.get_department_messages = async (req, res) => {
     return res.status(404).send("hmm there seems to be an error");
   const Msg = await message_model
     .findAll({
-      where: { message_type: "DEPARTMENT" },
-      attributes: ["message_body", "sent_at", "departmentId"],
+      attributes: ["message_body", "sent_at","departmentId"],
     })
     if(Msg.length === 0 || !Msg) return res.status(401).send("no messages")
     const idsHolder = [];
@@ -129,7 +128,7 @@ exports.get_department_messages = async (req, res) => {
 
   const depId = messagesId.length > 0 ? messagesId[0] : res.status(500).send("there is an error");
   const messages = await message_model
-    .findAll({ where: { departmentId: depId } })
+    .findAll({ where: { departmentId: depId ,message_type: "DEPARTMENT"} })
     .then((response) => response);
   if (messages.length == 0) {
     res.status(404).json({ messages: "messages not found" });
@@ -172,18 +171,11 @@ exports.get_classroom_messages = async (req, res, next) => {
   });
 
   const Msg = await message_model.findAll({
-    where: { message_type: "GOOGLE CLASSROOM" },
-    attributes: ["message_body", "sent_at", "staffId"],
-    include: {
-      model: staff,
-      attributes: ["firstName", "lastName", "role", "departmentId"],
-      include: { model: department, attributes: ["name", "id"] },
-    },
-  });
+    attributes: ["message_body", "sent_at", "staffId","departmentId"],  });
   if(Msg.length === 0 || !Msg) return res.status(401).send("no messages")
   const idsHolder = [];
   Msg.forEach((message) => {
-    const id = message.staff.department.id;
+    const id = message.departmentId;
     idsHolder.push(id);
   });
   let messagesId = [];
@@ -192,10 +184,9 @@ exports.get_classroom_messages = async (req, res, next) => {
       messagesId.push(id);
     }
   });
-
-  const depId = messagesId.length > 0 ? messagesId[0] : "cvbhjkl;'";
+  const depId = messagesId.length > 0 ? messagesId[0] : res.status(401).send("no messages");
   const messages = await message_model
-    .findAll({ where: { departmentId: depId } })
+    .findAll({ where: { departmentId: depId , message_type: "GOOGLE CLASSROOM" } })
     .then((response) => response);
 
   if (messages.length == 0) {
@@ -219,18 +210,14 @@ exports.get_secretary_messages = async (req, res, next) => {
 const Msg = await message_model
     .findAll({
       where: { message_type: "SECRETARY" },
-      attributes: ["message_body", "sent_at", "staffId"],
-      include: {
-        model: staff,
-        attributes: ["firstName", "lastName", "role", "departmentId"],
-        include: { model: department, attributes: ["name", "id"] },
-      },
+      attributes: ["message_body", "sent_at", "staffId","departmentId"],
+  
     })
     if(Msg.length === 0 || !Msg) return res.status(401).send("no messages")
 
     const idsHolder = [];
     Msg.forEach((message) => {
-      const id = message.staff.department.id;
+      const id = message.departmentId;
       idsHolder.push(id);
     });
     let messagesId = [];
@@ -246,7 +233,7 @@ const Msg = await message_model
       .then((response) => response);
   
     if (messages.length == 0) {
-      res.status(404).json({ messages: "vdfnnmf" });
+      res.status(404).json({ messages: "no messages" });
     } else {
       res.status(200).json({ messages });
     }
