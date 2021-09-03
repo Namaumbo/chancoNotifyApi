@@ -65,12 +65,12 @@ exports.get_broadcast_messages = async (req, res, next) => {
       });
     } else {
       res.status(200).json({
-        message: response,
+        messages: response,
       });
     }
   }).catch((error) => {
     res.status(500).json({
-      message: `there has been an error${error.message}`,
+      messages: `there has been an error${error.message}`,
     });
   });
 };
@@ -112,16 +112,12 @@ exports.get_department_messages = async (req, res) => {
   const Msg = await message_model
     .findAll({
       where: { message_type: "DEPARTMENT" },
-      attributes: ["message_body", "sent_at"],
-      include: {
-        model: staff,
-        attributes: ["firstName", "lastName", "role", "departmentId"],
-        include: { model: department, attributes: ["name", "id"] },
-      },
+      attributes: ["message_body", "sent_at", "departmentId"],
     })
+    if(Msg.length === 0 || !Msg) return res.status(401).send("no messages")
     const idsHolder = [];
   Msg.forEach((message) => {
-    const id = message.staff.department.id;
+    const id = message.departmentId;
     idsHolder.push(id);
   });
   let messagesId = [];
@@ -184,7 +180,7 @@ exports.get_classroom_messages = async (req, res, next) => {
       include: { model: department, attributes: ["name", "id"] },
     },
   });
-
+  if(Msg.length === 0 || !Msg) return res.status(401).send("no messages")
   const idsHolder = [];
   Msg.forEach((message) => {
     const id = message.staff.department.id;
@@ -230,6 +226,8 @@ const Msg = await message_model
         include: { model: department, attributes: ["name", "id"] },
       },
     })
+    if(Msg.length === 0 || !Msg) return res.status(401).send("no messages")
+
     const idsHolder = [];
     Msg.forEach((message) => {
       const id = message.staff.department.id;
@@ -242,15 +240,17 @@ const Msg = await message_model
       }
     });
   
-    const depId = messagesId.length > 0 ? messagesId[0] : res.status(500).send("there is an error");
+    const depId = messagesId.length > 0 ? messagesId[0] : "cvbhjkl;'";
     const messages = await message_model
       .findAll({ where: { departmentId: depId } })
       .then((response) => response);
+  
     if (messages.length == 0) {
       res.status(404).json({ messages: "vdfnnmf" });
     } else {
       res.status(200).json({ messages });
     }
+
 };
 
 /************************ 
