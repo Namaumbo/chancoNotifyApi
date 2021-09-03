@@ -121,3 +121,7 @@ exports.LoginAStaff = async (req, res, next) => {
       .json({ message: "opps errors were meant for humans encounter" });
   }
 };
+
+exports.deleteStaffs = async(req,res)=>{
+await staff_model.destroy().then(()=>{res.status(200).send("deleted all staffs")})
+}

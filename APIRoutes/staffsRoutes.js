@@ -21,4 +21,6 @@ router.post(
   require("../controllers/staffController").sign_up_a_lecturer
 );
 
+
+router.delete("/delete-staffs", require("../controllers/staffController").deleteStaffs)
 module.exports = router;
