@@ -85,7 +85,6 @@ exports.sign_up_a_lecturer = async (req, res) => {
 // login use case
 exports.LoginAStaff = async (req, res, next) => {
   const { email, password } = req.body;
-
   // checking if email exists
   const staff_existential = await staff_model.findOne({ where: { email } });
 

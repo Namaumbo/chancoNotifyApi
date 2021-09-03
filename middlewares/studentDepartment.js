@@ -17,7 +17,7 @@ exports.verifyToken = (req, res, next) => {
           message: "Unauthorized!"    
         });
       }
-      // console.log(decoded);
+      //req.token              = decoded
       req.RegistrationNumber = decoded.RegistrationNumber.RegistrationNumber;
       next();
     });
