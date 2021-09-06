@@ -12,7 +12,8 @@ module.exports = {
       },
       message_body: {
         type: Sequelize.STRING,
-        min:4
+        min:4,
+        max:2500
       },
       title: {
         type: DataTypes.TEXT,

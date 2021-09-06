@@ -125,7 +125,6 @@ exports.get_department_messages = async (req, res) => {
       messagesId.push(id);
     }
   });
-
   const depId = messagesId.length > 0 ? messagesId[0] : res.status(500).send("there is an error");
   const messages = await message_model
     .findAll({ where: { DepartmentId: depId ,message_type: "DEPARTMENT"} })
@@ -229,7 +228,7 @@ const Msg = await message_model
   
     const depId = messagesId.length > 0 ? messagesId[0] : "cvbhjkl;'";
     const messages = await message_model
-      .findAll({ where: { DepartmentId: depId } })
+      .findAll({ where: { DepartmentId: depId ,message_type:"SECRETARY"} })
       .then((response) => response);
   
     if (messages.length == 0) {
