@@ -1,7 +1,7 @@
 const dbConnection = require("../DatabaseConnection")
 const DataTypes = require("sequelize")
 
-const student = dbConnection.define('student', {
+const Student = dbConnection.define('Students', {
   
   // Model attributes are defined here
 
@@ -34,4 +34,4 @@ id: {
   timestamps: true
 });
 
-module.exports = student
+module.exports = Student

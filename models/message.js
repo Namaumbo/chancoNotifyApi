@@ -1,8 +1,8 @@
 const dbConnection = require("../DatabaseConnection");
 const DataTypes = require("sequelize");
 
-const message = dbConnection.define(
-  "message",
+const Message = dbConnection.define(
+  "Messages",
   {
     // Model attributes are defined here
 
@@ -43,4 +43,4 @@ const message = dbConnection.define(
   }
 );
 
-module.exports = message;
+module.exports = Message;

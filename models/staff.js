@@ -3,7 +3,7 @@ const dbConnection = require("../DatabaseConnection")
 const DataTypes = require("sequelize")
 const message = require("../models/message.js");
 const department = require("../models/department.js")
-const staff = dbConnection.define('staff', {
+const Staff = dbConnection.define('Staffs', {
   
   // Model attributes are defined here
 
@@ -48,20 +48,20 @@ password:{
 });
 
     /**************
-     association of message and staff
+     association of message and Staffs
      **************/
-     staff.hasMany(message,{
+     Staff.hasMany(message,{
       onDelete:"CASCADE",
       onUpdate:"CASCADE",
     })
-    message.belongsTo(staff)
+    message.belongsTo(Staff)
 
         /**************
-   association of department and staff
+   association of department and Staffs
   **************/
-    department.hasMany(staff,{
+    department.hasMany(Staff,{
       onDelete:"CASCADE",
       onUpdate:"CASCADE",
     })
-    staff.belongsTo(department)
-module.exports = staff
+    Staff.belongsTo(department)
+module.exports = Staff

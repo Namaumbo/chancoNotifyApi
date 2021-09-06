@@ -76,7 +76,7 @@ exports.RegisterAStudent = async (req, res, next) => {
       });
     } else if (student == null) {
       const newStudent = Object.assign(req.body, {
-        departmentId: department.id,
+        DepartmentId: department.id,
       });
       Student
         .create(newStudent)

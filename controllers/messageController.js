@@ -30,7 +30,7 @@ exports.send_message = async (req, res, next) => {
   if (staffAvailable) {
     const message_details = Object.assign(req.body, {
       sent_at: time,
-      DepartmentId: staffAvailable.departmentId,
+      DepartmentId: staffAvailable.DepartmentId,
       StaffId: staffAvailable.id,
     });
     message_model
@@ -56,7 +56,7 @@ exports.send_message = async (req, res, next) => {
 exports.get_broadcast_messages = async (req, res, next) => {
   const BroadcastMessages = message_model.findAll({
     where: { message_type: "BROADCAST" },
-    attributes: ["message_body", "sent_at", "staffId"],
+    attributes: ["message_body", "sent_at", "StaffId"],
   });
   BroadcastMessages.then((response) => {
     if (response.length === 0) {
@@ -81,7 +81,7 @@ exports.get_broadcast_messages = async (req, res, next) => {
 exports.get_personal_messages = async (req, res, next) => {
   const BroadcastMessages = message_model.findAll({
     where: { message_type: "PERSONAL" },
-    attributes: ["message_body", "sent_at", "staffId"],
+    attributes: ["message_body", "sent_at", "StaffId"],
   });
   BroadcastMessages.then((response) => {
     if (response.length === 0) {
@@ -171,7 +171,7 @@ exports.get_classroom_messages = async (req, res, next) => {
   });
 
   const Msg = await message_model.findAll({
-    attributes: ["message_body", "sent_at", "staffId","DepartmentId"],  });
+    attributes: ["message_body", "sent_at", "StaffId","DepartmentId"],  });
   if(Msg.length === 0 || !Msg) return res.status(401).send("no messages")
   const idsHolder = [];
   Msg.forEach((message) => {
@@ -210,7 +210,7 @@ exports.get_secretary_messages = async (req, res, next) => {
 const Msg = await message_model
     .findAll({
       where: { message_type: "SECRETARY" },
-      attributes: ["message_body", "sent_at", "staffId","DepartmentId"],
+      attributes: ["message_body", "sent_at", "StaffId","DepartmentId"],
   
     })
     if(Msg.length === 0 || !Msg) return res.status(401).send("no messages")

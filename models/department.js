@@ -5,8 +5,8 @@ const student = require("../models/student.js");
 const faculty = require("../models/faculty.js")
 const message = require("../models/message.js")
 
-const department = dbConnection.define(
-  "department",
+const Department = dbConnection.define(
+  "Departments",
   {
     // Model attributes are defined here
 
@@ -27,25 +27,25 @@ const department = dbConnection.define(
 
 
       /**************
-     association of student and department
+     association of student and Department
      **************/
-     department.hasMany(student,{
+     Department.hasMany(student,{
 
       onDelete:"CASCADE",
       onUpdate:"CASCADE"
       })
-      student.belongsTo(department);
+      student.belongsTo(Department);
       
-      faculty.hasMany(department,{
+      faculty.hasMany(Department,{
         onDelete:"CASCADE",
         onUpdate:"CASCADE",
       })
-      department.belongsTo(faculty)
+      Department.belongsTo(faculty)
 
-      department.hasMany(message,{
+      Department.hasMany(message,{
         onDelete:"NO ACTION",
         onUpdate:"CASCADE",
       })
-      message.belongsTo(department)
+      message.belongsTo(Department)
 
-module.exports = department;
+module.exports = Department;

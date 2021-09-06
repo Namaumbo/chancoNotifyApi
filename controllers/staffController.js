@@ -4,7 +4,7 @@ const { response } = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const staff_model = require("../models/staff");
-const department = require("../models/department.js")
+const department = require("../models/department.js");
 // const e = require("express");
 
 exports.get_all_staffs = async (req, res) => {
@@ -17,10 +17,10 @@ exports.get_all_staffs = async (req, res) => {
       "password",
       "createdAt",
     ],
-    include:{
+    include: {
       model: department,
-      attributes: ["id","name"]
-  }
+      attributes: ["id", "name"],
+    },
   });
 
   staffs.then((response) => {
@@ -39,7 +39,8 @@ exports.get_all_staffs = async (req, res) => {
 
 //sign up use case from the admin side
 exports.sign_up_a_lecturer = async (req, res) => {
-  const { firstName, lastName, email, password,name,is_head_of_dep,role } = req.body;
+  const { firstName, lastName, email, password, name, is_head_of_dep, role } =
+    req.body;
 
   const salt = await bcrypt.genSalt(10);
   //hashing the user password
@@ -51,9 +52,9 @@ exports.sign_up_a_lecturer = async (req, res) => {
   if (departmentAvailable === null) {
     res.status(401).json({ message: "no such department name" });
   } else {
-   const staff = await staff_model.findOne({
+    const staff = await staff_model.findOne({
       where: { email },
-    })
+    });
     if (staff) {
       res.status(409).json({
         message: "staff available",
@@ -61,10 +62,11 @@ exports.sign_up_a_lecturer = async (req, res) => {
       });
     } else if (staff == null) {
       const newStaff = Object.assign(req.body, {
-        password:hashed_password ,
-        departmentId: departmentAvailable.id,
+        password: hashed_password,
+        DepartmentId: departmentAvailable.id,
       });
-      staff_model.create(newStaff)
+      staff_model
+        .create(newStaff)
         .then((response) => {
           res.status(201).json({
             message: "staff registered",
@@ -100,13 +102,17 @@ exports.LoginAStaff = async (req, res, next) => {
       });
       return false;
     } else {
-      const token = jwt.sign({id:staff_existential.id},process.env.SECRETE_KEY, {
-        expiresIn: 3600,
-      });
+      const token = jwt.sign(
+        { id: staff_existential.id },
+        process.env.SECRETE_KEY,
+        {
+          expiresIn: 3600,
+        }
+      );
       res.status(200).json({
         Status: "login successfully",
         staff_existential,
-        accessToken : token,
+        accessToken: token,
       });
       return true;
     }
@@ -122,6 +128,8 @@ exports.LoginAStaff = async (req, res, next) => {
   }
 };
 
-exports.deleteStaffs = async(req,res)=>{
-await staff_model.destroy({where:{}}).then(()=>{res.status(200).send("deleted all staffs")})
-}
+exports.deleteStaffs = async (req, res) => {
+  await staff_model.destroy({ where: {} }).then(() => {
+    res.status(200).send("deleted all staffs");
+  });
+};

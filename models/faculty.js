@@ -1,10 +1,10 @@
 'use strict'
 const dbConnection = require("../DatabaseConnection");
 const DataTypes = require("sequelize");
-const department = require("../models/department.js");
+// const department = require("../models/department.js");
 
-const faculty = dbConnection.define(
-  "faculty",
+const Faculty = dbConnection.define(
+  "Faculties",
   {
     // Model attributes are defined here
     id: {
@@ -23,4 +23,4 @@ const faculty = dbConnection.define(
 
 
 
-module.exports = faculty
+module.exports = Faculty
