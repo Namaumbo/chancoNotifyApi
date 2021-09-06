@@ -47,5 +47,4 @@ const Department = dbConnection.define(
         onUpdate:"CASCADE",
       })
       message.belongsTo(Department)
-
 module.exports = Department;
